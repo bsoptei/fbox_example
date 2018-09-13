@@ -49,7 +49,7 @@ fn main() {
         )
     }
 
-    let bytes_from_path: FBox<String, Vector<u8>> =
+    let bytes_from_path =
         FBox::new(read_from_path)
             .and_then(extract_bytes)
             .and_then(Vector::from);
