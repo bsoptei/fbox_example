@@ -1,41 +1,14 @@
+extern crate fbox;
 extern crate im;
 
+use fbox::*;
 use im::vector::Vector;
 
 use std::env;
 use std::fs::read as read_from_path;
 use std::io::Error;
 
-pub mod fbox {
-
-    pub struct FBox<FIn, FOut> {
-        f: Box<Fn(FIn) -> FOut>
-    }
-
-    impl<FIn: 'static, FOut: 'static> FBox<FIn, FOut> {
-
-        pub fn new(f: impl Fn(FIn) -> FOut + 'static) -> FBox<FIn, FOut> {
-            FBox { f: Box::new(f) }
-        }
-
-        pub fn apply(&self, a: FIn) -> FOut {
-            (self.f)(a)
-        }
-
-        pub fn compose<GIn: 'static>(self, g: impl Fn(GIn) -> FIn + 'static) -> FBox<GIn, FOut> {
-            FBox::new(move |x| (self.f)(g(x)))
-        }
-
-        pub fn and_then<GOut: 'static>(self, g: impl Fn(FOut) -> GOut + 'static) -> FBox<FIn, GOut> {
-            FBox::new(move |x| g((self.f)(x)))
-        }
-
-    }
-
-}
-
 fn main() {
-    use fbox::FBox;
 
     type Res = Result<Vec<u8>, Error>;
 
