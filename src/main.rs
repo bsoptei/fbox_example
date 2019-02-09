@@ -1,15 +1,13 @@
-extern crate fbox;
-extern crate im;
-
 use fbox::*;
 use im::vector::Vector;
 
-use std::env;
-use std::fs::read as read_from_path;
-use std::io::Error;
+use std::{
+    env,
+    fs::read as read_from_path,
+    io::Error,
+};
 
 fn main() {
-
     type Res = Result<Vec<u8>, Error>;
 
     let args = || env::args().collect::<Vec<String>>();
@@ -17,7 +15,8 @@ fn main() {
     fn extract_bytes(bytes_in_a_result: Res) -> Vec<u8> {
         bytes_in_a_result.unwrap_or_else(
             |error| {
-                println!("{:?}", error); vec![]
+                println!("{:?}", error);
+                vec![]
             }
         )
     }
